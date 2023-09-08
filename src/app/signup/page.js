@@ -16,15 +16,21 @@ const signup = () => {
     console.log(formData);
 
     function isFormValid() {
-      return formData.email.length > 0 && formData.password.length > 0;
+        return formData.email.length > 0 && formData.password.length > 0;
     }
     console.log(isFormValid());
 
     async function handleSubmit(e) {
-        const data = await registerNewUser(formData);
-        console.log(data);
+        const res = await registerNewUser(formData);
+        console.log(res);
         e.preventDefault();
         console.log("Form Submitted");
+
+        if (res.success) {
+            window.location.href = "/login";
+        } else {
+            alert(res.message);
+        }
     }
 
     return (
