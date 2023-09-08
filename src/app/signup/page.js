@@ -26,11 +26,11 @@ const signup = () => {
         e.preventDefault();
         console.log("Form Submitted");
 
-        if (res.success) {
-            window.location.href = "/login";
-        } else {
-            alert(res.message);
-        }
+        // if (res.success) {
+        //     window.location.href = "/login";
+        // } else {
+        //     alert(res.message);
+        // }
     }
 
     return (

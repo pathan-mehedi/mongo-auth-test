@@ -2,8 +2,8 @@ import connectToDb from "@/database";
 import Joi from "joi";
 import bcrypt from "bcryptjs"; // Import bcrypt for password hashing
 import { NextResponse } from "next/server";
-import User from "@/models/user"
-
+import User from "@/models/user";
+import { sendMail } from "@/helper/mailer";
 
 const schema = Joi.object({
     email: Joi.string().email().required(),
@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 export async function POST(req, res) {
     await connectToDb();
 
-    const { email, password } = await req.json();  // Get the email and password from the request body;
+    const { email, password } = await req.json(); // Get the email and password from the request body;
     const { error } = schema.validate({ email, password });
     if (error) {
         console.log(error);
@@ -29,7 +29,7 @@ export async function POST(req, res) {
         // Check if the user already exists
         const isUserAlreadyExists = await User.findOne({ email });
         if (isUserAlreadyExists) {
-            return res.status(422).json({
+            return NextResponse.json({
                 success: false,
                 message: "User already exists. Please try with a new email.",
             });
@@ -39,8 +39,13 @@ export async function POST(req, res) {
                 email,
                 password: hashedPassword, // Store the hashed password
             });
+            const newlyCreatedUserSaved = await newlyCreatedUser.save();
+            console.log(" the new user data ", newlyCreatedUserSaved);
 
             if (newlyCreatedUser) {
+
+                await sendMail(email, "VERIFY", newlyCreatedUserSaved._id);
+
                 return NextResponse.json({
                     success: true,
                     message: "User Account created successfully.",
