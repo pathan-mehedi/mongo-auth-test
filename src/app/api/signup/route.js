@@ -3,6 +3,7 @@ import Joi from "joi";
 import bcrypt from "bcryptjs"; // Import bcrypt for password hashing
 import { NextResponse } from "next/server";
 import User from "@/models/user";
+import { sendEmail } from "@/helper/mailer";
 
 const schema = Joi.object({
     email: Joi.string().email().required(),
@@ -42,7 +43,8 @@ export async function POST(req, res) {
             console.log(" the new user data ", newlyCreatedUserSaved);
 
             if (newlyCreatedUser) {
-                // await sendMail(email, "VERIFY", newlyCreatedUserSaved._id);
+                //send email to the user
+                await sendEmail(email);
 
                 const response = NextResponse.json({
                     success: true,
