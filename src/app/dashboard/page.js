@@ -6,9 +6,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const dashboard = () => {
-
     const router = useRouter();
-    
+    const [data, setData] = React.useState("nothing");
+
+
     const logout = async () => {
         try {
             await axios.get("/api/logout");
