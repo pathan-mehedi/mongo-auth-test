@@ -28,7 +28,6 @@ const dashboard = () => {
         }
     }, []);
 
-
     return (
         <main className='container flex flex-col justify-center items-center'>
             <div class='relative flex mb-4 flex-col items-center justify-center overflow-hidden py-6 sm:py-12 bg-white'>
@@ -39,10 +38,7 @@ const dashboard = () => {
                     <p class='mb-2 text-lg text-zinc-500'>
                         We are glad, that you’re with us ? We’ve sent you a
                         verification link to the email address{" "}
-                        <span class='font-medium text-sky-300'>
-                            {token}gg
-                        </span>
-                        .
+                        <span class='font-medium text-sky-300'>{token}gg</span>.
                     </p>
                     <a
                         href='https://gmail.com'

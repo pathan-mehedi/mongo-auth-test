@@ -33,6 +33,7 @@ const signup = () => {
             window.location.href = "/login";
         } else {
             alert(data.message);
+            alert("GO TO LOGIN PAGE TO LOGIN IN YOUR ACCOUNT")
         }
     }
 
