@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { loginUser } from "@/services/login";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 const initialFormData = {
     email: "",
@@ -11,6 +11,7 @@ const initialFormData = {
 
 const login = () => {
     const [formData, setFormData] = React.useState(initialFormData);
+    const [loading, setLoading] = React.useState(false);
 
     console.log(formData);
 
@@ -23,8 +24,7 @@ const login = () => {
         console.log(res);
 
         if (res.success) {
-            Cookies.set("token", res.data.token);
-            Cookies.set("email", res.data.user);
+            setLoading(true);
             window.location.href = "/dashboard";
         } else {
             alert(res.message);
@@ -34,14 +34,6 @@ const login = () => {
     }
 
     console.log(formData);
-
-    useEffect(() => {
-        console.log(Cookies.get("token"));
-
-        if (Cookies.get("token")) {
-            window.location.href = "/dashboard";
-        }
-    }, [Cookies]);
 
     return (
         <main className='container'>
@@ -63,7 +55,7 @@ const login = () => {
                                 class='flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl
             relative z-10'>
                                 <p class='w-full text-2xl font-medium text-center leading-snug font-serif capitalize'>
-                                    Login for an account
+                                    {loading ? "Processing..." : "Login to your account"}
                                 </p>
                                 <div class='w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8'>
                                     <div class='relative'>

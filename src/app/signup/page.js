@@ -1,6 +1,7 @@
 "use client";
 
 import { registerNewUser } from "@/services/signup";
+import { set } from "mongoose";
 import React from "react";
 
 const isRegistered = false;
@@ -12,6 +13,7 @@ const initalFormData = {
 
 const signup = () => {
     const [formData, setFormData] = React.useState(initalFormData);
+    const [loading, setLoading] = React.useState(false);
 
     console.log(formData);
 
@@ -21,16 +23,17 @@ const signup = () => {
     console.log(isFormValid());
 
     async function handleSubmit(e) {
-        const res = await registerNewUser(formData);
-        console.log(res);
+        const data = await registerNewUser(formData);
+        console.log(data);
         e.preventDefault();
         console.log("Form Submitted");
 
-        // if (res.success) {
-        //     window.location.href = "/login";
-        // } else {
-        //     alert(res.message);
-        // }
+        if (data.success) {
+            setLoading(true);
+            window.location.href = "/login";
+        } else {
+            alert(data.message);
+        }
     }
 
     return (
@@ -53,7 +56,7 @@ const signup = () => {
                                 class='flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl
           relative z-10'>
                                 <p class='w-full text-2xl font-medium text-center leading-snug font-serif capitalize'>
-                                    Signup Now
+                                    {loading ? 'Loading...' : 'Signup'}
                                 </p>
                                 <div class='w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8'>
                                     <div class='relative'>

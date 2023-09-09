@@ -62,7 +62,7 @@ export async function POST(req) {
             },
         };
 
-        return NextResponse.json(
+        const response = NextResponse.json(
             {
                 success: true,
                 message: "Logged In Successfully",
@@ -70,6 +70,20 @@ export async function POST(req) {
             },
             { status: 200 }
         );
+
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            sameSite: "strict",
+            path: "/",
+        });
+
+        response.cookies.set("email", email, {
+            httpOnly: true,
+            sameSite: "strict",
+            path: "/",
+        });
+
+        return response;
     } catch (error) {
         console.log("Error while logging in: ", error);
         return NextResponse.json(

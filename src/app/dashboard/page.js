@@ -1,15 +1,22 @@
-'use client';
+"use client";
 
-import Cookies from "js-cookie";
 import React from "react";
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const dashboard = () => {
 
-    function DeleteUserCookie() {
-        Cookies.remove("token");
-        Cookies.remove("email");
-        window.location.href = "/login";
-    }
+    const router = useRouter();
+    
+    const logout = async () => {
+        try {
+            await axios.get("/api/logout");
+            router.push("/login");
+        } catch (error) {
+            console.log(error.messafge);
+        }
+    };
 
     return (
         <main className='container flex flex-col justify-center items-center'>
@@ -21,10 +28,10 @@ const dashboard = () => {
                     here to provide you with the latest updates and insights.
                 </p>
                 <div className='btn_wrapper dflex mt-10'></div>
-                <button class='w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-teal-500
+                <button
+                    class='w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-teal-500
                   rounded-lg transition duration-200 hover:bg-teal-600 ease cursor-pointer'
-                  onClick={DeleteUserCookie}
-                  >
+                    onClick={logout}>
                     Logout
                 </button>
             </div>
